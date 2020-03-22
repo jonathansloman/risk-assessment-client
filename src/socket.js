@@ -2,8 +2,8 @@
 const AppConfig = {
     PROTOCOL: "wss:",
     // TODO: change to localhost if you wish to run it locally
-    HOST: "//serene-wave-94653.herokuapp.com",
-    PORT: ":9000"
+    HOST: "//localhost",
+    PORT: ":9002"
 }
 
 const Singleton = (function () {
