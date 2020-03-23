@@ -77,16 +77,16 @@ class App extends Component {
         case MessageType.TEXT_MESSAGE:
           self.props.messageReceived(message);
           break;
-        case MessageType.USER_JOINED:
+        case MessageType.PLAYER_JOINED:
           users = JSON.parse(message.data);
           self.props.userJoined(users);
           break;
-        case MessageType.USER_LEFT:
+        case MessageType.PLAYER_LEFT:
           users = JSON.parse(message.data);
           self.props.userLeft(users);
           break;
-        case MessageType.USER_JOINED_ACK:
-          let thisUser = message.user;
+        case MessageType.PLAYER_JOINED_ACK:
+          let thisUser = message.player;
           self.props.userJoinedAck(thisUser);
           break;
         default:
@@ -98,13 +98,13 @@ class App extends Component {
     }
 
     window.onbeforeunload = () => {
-      let messageDto = JSON.stringify({ user: this.props.thisUser, type: MessageType.USER_LEFT });
+      let messageDto = JSON.stringify({ player: this.props.thisUser, type: MessageType.PLAYER_LEFT });
       this.socket.send(messageDto);
     }
   }
 
   sendJoinedMessage() {
-    let messageDto = JSON.stringify({ user: this.state.usernameInput, type: MessageType.USER_JOINED });
+    let messageDto = JSON.stringify({ player: this.state.usernameInput, type: MessageType.PLAYER_JOINED });
     this.socket.send(messageDto);
   }
 

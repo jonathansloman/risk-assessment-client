@@ -1,7 +1,7 @@
 
 export default  class MessageType {
     static TEXT_MESSAGE = 'TEXT_MESSAGE';
-    static USER_JOINED = 'USER_JOINED';
-    static USER_LEFT = 'USER_LEFT';
-    static USER_JOINED_ACK = 'USER_JOINED_ACK';
+    static PLAYER_JOINED = 'PLAYER_JOINED';
+    static PLAYER_LEFT = 'PLAYER_LEFT';
+    static PLAYER_JOINED_ACK = 'PLAYER_JOINED_ACK';
 }

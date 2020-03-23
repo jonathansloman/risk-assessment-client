@@ -31,7 +31,7 @@ class ChatHistory extends Component {
             margin: '5px 0'
         };
 
-        const isMe = this.props.thisUser.name === message.user.name;
+        const isMe = this.props.thisUser.name === message.player.name;
         const floatDirection = isMe ? 'right' : 'left'
         const nameColor = isMe ? 'green' : 'red';
         const margin = isMe ? ' 0 0 0 40px' : '0 40px 0 0 ';
@@ -53,7 +53,7 @@ class ChatHistory extends Component {
         return (
             <div key={i} style={style}>
                 <span style={textStyle}>
-                    <span style={nameStyle}>{message.user.name}</span>
+                    <span style={nameStyle}>{message.player.name}</span>
                     <br />
                     {message.data}
                 </span>
