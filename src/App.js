@@ -22,7 +22,8 @@ class App extends Component {
 
     this.state = {
       modalOpen: true,
-      usernameInput: ''
+      usernameInput: '',
+      passwordInput: ''
     }
   }
 
@@ -44,7 +45,7 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div className="App">
-          <UserList users={this.state.users} />
+          <UserList table={this.state.table} />
           {chat}
           <Dialog
             title="Choose your name"
@@ -59,6 +60,12 @@ class App extends Component {
               onChange={(event) => this.updateInputValue(event.target.value)}
               onKeyPress={this.handleKeyPress}
             />
+            <TextField
+              hintText="Password ..."
+              value={this.state.passwordInput}
+              onChange={(event) => this.updatePasswordValue(event.target.value)}
+              onKeyPress={this.handleKeyPress}
+            />
           </Dialog>
         </div>
       </MuiThemeProvider>
@@ -71,24 +78,31 @@ class App extends Component {
 
     this.socket.onmessage = (response) => {
       let message = JSON.parse(response.data);
-      let users;
+      let table;
 
       switch (message.type) {
         case MessageType.TEXT_MESSAGE:
-          self.props.messageReceived(message);
+          table = message.table;
+          self.props.messageReceived(message, table);
           break;
         case MessageType.PLAYER_JOINED:
-          users = JSON.parse(message.data);
-          self.props.userJoined(users);
+          table = message.table;
+          self.props.userJoined(table);
           break;
         case MessageType.PLAYER_LEFT:
-          users = JSON.parse(message.data);
-          self.props.userLeft(users);
+          table = message.table;
+          self.props.userLeft(table);
           break;
         case MessageType.PLAYER_JOINED_ACK:
-          let thisUser = message.player;
+          let thisUser = message.playerName;
           self.props.userJoinedAck(thisUser);
           break;
+        case MessageType.PLAYER_OVERRIDDEN:
+        	// notify user somehow?
+        	break;
+        case MessageType.PLAYER_BADPASSWORD:
+        	// notify user somehow?
+        	break;
         default:
       }
     }
@@ -104,7 +118,8 @@ class App extends Component {
   }
 
   sendJoinedMessage() {
-    let messageDto = JSON.stringify({ player: this.state.usernameInput, type: MessageType.PLAYER_JOINED });
+	var newPlayerObj = { name: this.state.usernameInput, password: this.state.passwordInput }
+    let messageDto = JSON.stringify({ newPlayer: newPlayerObj, type: MessageType.PLAYER_JOINED });
     this.socket.send(messageDto);
   }
 
@@ -116,6 +131,10 @@ class App extends Component {
   updateInputValue(value) {
     this.setState({ usernameInput: value });
   }
+  
+  updatePasswordValue(value) {
+	    this.setState({ passwordInput: value });
+	}
 
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -127,7 +146,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     messages: state.message,
-    users: state.users,
+    table: state.table,
     thisUser: state.thisUser
   }
 }

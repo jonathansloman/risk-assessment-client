@@ -2,7 +2,7 @@
 export default function (state = [], action) {
     switch (action.type) {
         case 'TEXT_MESSAGE':
-        return [...state, action.message];
+        return [...state, action.message, action.table];
         default:
     }
     return state;

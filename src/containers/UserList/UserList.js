@@ -8,29 +8,33 @@ import { connect } from 'react-redux';
 class UserList extends Component {
 
     render() {
-        if (!this.props.users || this.props.users.length < 1) {
+        if (!this.props.table.players || this.props.table.players.length < 1) {
             return '';
         }
 
         return (<div style={{ textAlign: 'left' }}>
             <Drawer width={200} docked={true}>
-                <AppBar title="Users" showMenuIconButton={false} />
-                {this.renderUserList()}
+                <AppBar title="Players" showMenuIconButton={false} />
+                {this.renderPlayerList()}
             </Drawer>
         </div>
         );
     }
 
-    renderUserList() {
-        return this.props.users.map(user =>
-            <MenuItem key={user.id} leftIcon={<CheckCircle color={"#2BB673"} />}> {user.name} </MenuItem>
+    renderPlayerList() {
+           	
+  
+        return this.props.table.players.map(player => player == null ? 
+            <MenuItem key='empty' leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
+        		:
+            <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} {player.chips} </MenuItem>
         );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        users: state.users
+        table: state.table
     }
 }
 

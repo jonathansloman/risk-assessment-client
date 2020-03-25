@@ -4,7 +4,7 @@ import MessagesReducer from './MessagesReducer';
 import ThisUserReducer from './ThisUserReducer';
 
 const rootReducer = combineReducers({
-    users: UsersReducer,
+    table: UsersReducer,
     messages: MessagesReducer,
     thisUser: ThisUserReducer
 });

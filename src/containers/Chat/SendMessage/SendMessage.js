@@ -56,7 +56,7 @@ class SendMessage extends Component {
 
     sendMessage() {
         const socket = Singleton.getInstance();
-        let messageDto = JSON.stringify({ player: this.props.thisUser, data: this.state.inputValue, type: MessageType.TEXT_MESSAGE });
+        let messageDto = JSON.stringify({ playerName: this.props.thisUser, data: this.state.inputValue, type: MessageType.TEXT_MESSAGE });
         socket.send(messageDto);
         this.setState({ inputValue: '' })
     }
@@ -72,6 +72,7 @@ class SendMessage extends Component {
 function mapStateToProps(state) {
     return {
         messages: state.messages,
+        table: state.table,
         thisUser: state.thisUser
     }
 }

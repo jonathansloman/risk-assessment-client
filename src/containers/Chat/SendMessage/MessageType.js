@@ -4,4 +4,6 @@ export default  class MessageType {
     static PLAYER_JOINED = 'PLAYER_JOINED';
     static PLAYER_LEFT = 'PLAYER_LEFT';
     static PLAYER_JOINED_ACK = 'PLAYER_JOINED_ACK';
+    static PLAYER_OVERRIDDEN = 'PLAYER_OVERRIDDEN';
+    static PLAYER_BADPASSWORD = 'PLAYED_BADPASSWORD';
 }

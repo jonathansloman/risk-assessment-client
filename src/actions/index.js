@@ -1,7 +1,7 @@
-export function userJoined(users) {
+export function userJoined(table) {
     return {
         type: 'PLAYER_JOINED',
-        users: users
+        table: table
     }
 }
 
@@ -12,16 +12,17 @@ export function userJoinedAck(thisUser) {
     }
 }
 
-export function userLeft(users) {
+export function userLeft(table) {
     return {
         type: 'PLAYER_LEFT',
-        users: users
+        table: table
     }
 }
 
-export function messageReceived(message) {
+export function messageReceived(message, table) {
     return {
         type: 'TEXT_MESSAGE',
+        table: table,
         message: message
     }
 }
