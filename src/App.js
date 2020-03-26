@@ -3,7 +3,7 @@ import './App.css';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import UserList from './containers/UserList/UserList';
+//import UserList from './containers/UserList/UserList';
 import Chat from './containers/Chat/Chat';
 import Singleton from './socket';
 import MessageType from './containers/Chat/SendMessage/MessageType';
@@ -45,7 +45,6 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div className="App">
-          <UserList table={this.state.table} />
           {chat}
           <Dialog
             title="Choose your name"

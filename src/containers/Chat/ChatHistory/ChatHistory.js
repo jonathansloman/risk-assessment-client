@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-
+import Drawer from 'material-ui/Drawer';
+import AppBar from 'material-ui/AppBar';
+import MenuItem from 'material-ui/MenuItem';
+import CheckCircle from 'material-ui-icons/CheckCircle';
 import { connect } from 'react-redux';
 
 class ChatHistory extends Component {
@@ -19,8 +22,16 @@ class ChatHistory extends Component {
         );
 
         return (
+        		<div>
+        		<div style={{ textAlign: 'left' }}>
+                <Drawer width={200} docked={true}>
+                    <AppBar title="Players" showMenuIconButton={false} />
+                    {this.renderTable()}
+                </Drawer>
+            </div>
             <div style={style}>
                 {msgs}
+            </div>
             </div>
         )
     }
@@ -60,7 +71,18 @@ class ChatHistory extends Component {
             </div>
         );
     }
+    renderTable() {
+       	
+  	  
+  //      return this.props.table.players.map(player => player == null ? 
+  //          <MenuItem key='empty' leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
+  //      		:
+   //         <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} {player.chips} </MenuItem>
+    	return <MenuItem key='empty' leftIcon={<CheckCircle color={"#2BB673"} />}>blah</MenuItem>
+  //      );
+    }
 }
+
 
 
 // Whatever is returned is going to show up as props inside UserList
