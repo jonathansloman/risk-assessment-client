@@ -19,10 +19,11 @@ export function userLeft(table) {
     }
 }
 
-export function messageReceived(message, table) {
+export function messageReceived(message, table, cards) {
     return {
         type: 'TEXT_MESSAGE',
         table: table,
-        message: message
+        message: message,
+        cards: cards
     }
 }

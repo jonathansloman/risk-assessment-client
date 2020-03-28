@@ -77,20 +77,16 @@ class App extends Component {
 
     this.socket.onmessage = (response) => {
       let message = JSON.parse(response.data);
-      let table;
 
       switch (message.type) {
         case MessageType.TEXT_MESSAGE:
-          table = message.table;
-          self.props.messageReceived(message, table);
+          self.props.messageReceived(message, message.table, message.cards);
           break;
         case MessageType.PLAYER_JOINED:
-          table = message.table;
-          self.props.userJoined(table);
+          self.props.userJoined(message.table);
           break;
         case MessageType.PLAYER_LEFT:
-          table = message.table;
-          self.props.userLeft(table);
+          self.props.userLeft(message.table);
           break;
         case MessageType.PLAYER_JOINED_ACK:
           let thisUser = message.playerName;

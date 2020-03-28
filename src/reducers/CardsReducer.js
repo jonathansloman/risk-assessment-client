@@ -1,8 +1,7 @@
 
 export default function (state = [], action) {
-    if (action.table != null) {
-      return action.table;
+    if (action.cards != null) {
+      return action.cards;
     }
-
     return state;
 }

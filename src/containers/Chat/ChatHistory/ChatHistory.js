@@ -20,13 +20,14 @@ class ChatHistory extends Component {
         const msgs = this.props.messages.map((message, i) =>
             this.renderMessages(message, i)
         );
-
+        console.log('Calling render')
         return (
         		<div>
         		<div style={{ textAlign: 'left' }}>
                 <Drawer width={200} docked={true}>
+                    {this.renderCards(this.props.cards)}
                     <AppBar title="Players" showMenuIconButton={false} />
-                    {this.renderTable()}
+                    {this.renderTable(this.props.table)}
                 </Drawer>
             </div>
             <div style={style}>
@@ -71,26 +72,48 @@ class ChatHistory extends Component {
             </div>
         );
     }
-    renderTable() {
+    
+    renderTable(table) {
        	
-  	  
-  //      return this.props.table.players.map(player => player == null ? 
-  //          <MenuItem key='empty' leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
-  //      		:
-   //         <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} {player.chips} </MenuItem>
-    	return <MenuItem key='empty' leftIcon={<CheckCircle color={"#2BB673"} />}>blah</MenuItem>
-  //      );
+    	console.log(table);
+        return table.players == null ? <MenuItem>No Players</MenuItem> : table.players.map(renderPlayer);
+    }
+    
+    renderCards(cards) {
+    	console.log(cards);
+    	if (cards == null || cards.length != 2) {
+    		return;
+    	} else {
+    		return (
+            		<div style={{ textAlign: 'left' }}>
+
+              <AppBar title="Cards" showMenuIconButton={false} />
+              <MenuItem key='card1' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[0])}</MenuItem>
+              <MenuItem key='card2' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[1])}</MenuItem>
+              </div>
+              );
+    	}
     }
 }
 
+function renderPlayer(player, index) {
+    if (player == null) {
+       return <MenuItem key={index} leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
+    } else {
+ 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} {player.chips} </MenuItem>
+    }
+  }
 
-
+    function renderCard(card) {
+    	return card.value + ' of ' + card.suit;
+    }
 // Whatever is returned is going to show up as props inside UserList
 function mapStateToProps(state) {
     return {
         messages: state.messages,
         table: state.table,
-        thisUser: state.thisUser
+        thisUser: state.thisUser,
+        cards: state.cards
     }
 }
 
