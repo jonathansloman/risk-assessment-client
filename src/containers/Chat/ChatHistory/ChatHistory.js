@@ -24,8 +24,9 @@ class ChatHistory extends Component {
         return (
         		<div>
         		<div style={{ textAlign: 'left' }}>
-                <Drawer width={200} docked={true}>
-                    {this.renderCards(this.props.cards)}
+                <Drawer width={300} docked={true}>
+                    {this.renderPlayerCards(this.props.cards)}
+                    {this.renderTableCards(this.props.table.cards)}
                     <AppBar title="Players" showMenuIconButton={false} />
                     {this.renderTable(this.props.table)}
                 </Drawer>
@@ -73,27 +74,43 @@ class ChatHistory extends Component {
         );
     }
     
-    renderTable(table) {
-       	
+    renderTable(table) {  	
     	console.log(table);
         return table.players == null ? <MenuItem>No Players</MenuItem> : table.players.map(renderPlayer);
     }
     
-    renderCards(cards) {
+    renderPlayerCards(cards) {
     	console.log(cards);
-    	if (cards == null || cards.length != 2) {
+    	if (cards == null || cards.length != 2 || cards[0] == null) {
     		return;
     	} else {
     		return (
             		<div style={{ textAlign: 'left' }}>
 
-              <AppBar title="Cards" showMenuIconButton={false} />
+              <AppBar title="Your Cards" showMenuIconButton={false} />
               <MenuItem key='card1' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[0])}</MenuItem>
               <MenuItem key='card2' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[1])}</MenuItem>
               </div>
               );
     	}
     }
+              renderTableCards(cards) {
+              	console.log(cards);
+              	if (cards == null || cards.length != 5 || cards[0] == null) {
+              		return;
+              	} else {
+              		return (
+                      		<div style={{ textAlign: 'left' }}>
+
+                        <AppBar title="Table Cards" showMenuIconButton={false} />
+                        <MenuItem key='flop1' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[0])}</MenuItem>
+                        <MenuItem key='flop2' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[1])}</MenuItem>
+                        <MenuItem key='flop3' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[2])}</MenuItem>
+
+                        </div>
+                        );
+              	}
+              }
 }
 
 function renderPlayer(player, index) {

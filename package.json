@@ -1,8 +1,8 @@
 {
-  "name": "chat-client",
+  "name": "risk-assessment",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jasofalcon.github.io/chat-ws-client",
+  "homepage": "",
   "dependencies": {
     "material-ui": "^0.19.4",
     "material-ui-icons": "^1.0.0-beta.17",
