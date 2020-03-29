@@ -88,41 +88,60 @@ class ChatHistory extends Component {
             		<div style={{ textAlign: 'left' }}>
 
               <AppBar title="Your Cards" showMenuIconButton={false} />
-              <MenuItem key='card1' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[0])}</MenuItem>
-              <MenuItem key='card2' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[1])}</MenuItem>
+              {cards.map(renderCard)}
               </div>
               );
     	}
     }
-              renderTableCards(cards) {
-              	console.log(cards);
-              	if (cards == null || cards.length !== 5 || cards[0] == null) {
-              		return;
-              	} else {
-              		return (
-                      		<div style={{ textAlign: 'left' }}>
 
-                        <AppBar title="Table Cards" showMenuIconButton={false} />
-                        <MenuItem key='flop1' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[0])}</MenuItem>
-                        <MenuItem key='flop2' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[1])}</MenuItem>
-                        <MenuItem key='flop3' leftIcon={<CheckCircle color={"#2BB673"} />}>{renderCard(cards[2])}</MenuItem>
+      renderTableCards(cards) {
+      	console.log(cards);
+      	if (cards == null || cards.length !== 5 || cards[0] == null) {
+      		return;
+      	} else {
+      		return (
+              		<div style={{ textAlign: 'left' }}>
 
-                        </div>
-                        );
-              	}
-              }
+                <AppBar title="Table Cards" showMenuIconButton={false} />
+                {cards.map(renderCard)}
+                </div>
+                );
+      	}
+      }
+ 
+     
 }
 
 function renderPlayer(player, index) {
     if (player == null) {
        return <MenuItem key={index} leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
     } else {
- 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} {player.chips} </MenuItem>
+ 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {player.bet}</MenuItem>
     }
   }
+    
+function renderCard(card) {
+    if (card == null) {
+   	 return ;
+    } else {
+   	 return <MenuItem key="key" leftIcon={<CheckCircle color={"#2BB673"} />}>{cardToText(card)}</MenuItem>
+    }
+                   	
+}
 
-    function renderCard(card) {
-    	return card.value + ' of ' + card.suit;
+    function cardToText(card) {
+    	if (card.value == 1) {
+    		return 'A of ' + card.suit;
+        } else if (card.value <= 10) {
+        	return card.value + ' of ' + card.suit;
+    	} else if (card.value == 11) {
+    		return 'J of ' + card.suit;
+    	} else if (card.value == 12) {
+    		return 'Q of ' + card.suit;
+    		
+    	} else if (card.value == 13) {
+    		return 'K of ' + card.suit;
+    	}
     }
 // Whatever is returned is going to show up as props inside UserList
 function mapStateToProps(state) {
