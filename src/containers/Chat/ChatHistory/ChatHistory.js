@@ -81,7 +81,7 @@ class ChatHistory extends Component {
     
     renderPlayerCards(cards) {
     	console.log(cards);
-    	if (cards == null || cards.length != 2 || cards[0] == null) {
+    	if (cards == null || cards.length !== 2 || cards[0] == null) {
     		return;
     	} else {
     		return (
@@ -96,7 +96,7 @@ class ChatHistory extends Component {
     }
               renderTableCards(cards) {
               	console.log(cards);
-              	if (cards == null || cards.length != 5 || cards[0] == null) {
+              	if (cards == null || cards.length !== 5 || cards[0] == null) {
               		return;
               	} else {
               		return (
