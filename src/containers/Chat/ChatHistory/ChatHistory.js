@@ -129,10 +129,8 @@ function renderCard(card) {
                    	
 }
 
-    function cardToText(card) {
-    	if (card.value == 1) {
-    		return 'A of ' + card.suit;
-        } else if (card.value <= 10) {
+    function cardToText(card) { 	
+        if (card.value <= 10) {
         	return card.value + ' of ' + card.suit;
     	} else if (card.value == 11) {
     		return 'J of ' + card.suit;
@@ -141,6 +139,8 @@ function renderCard(card) {
     		
     	} else if (card.value == 13) {
     		return 'K of ' + card.suit;
+    	} else if (card.value == 14) {
+    		return 'A of ' + card.suit;
     	}
     }
 // Whatever is returned is going to show up as props inside UserList
