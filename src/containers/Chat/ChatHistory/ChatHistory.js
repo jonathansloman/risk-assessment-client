@@ -27,6 +27,7 @@ class ChatHistory extends Component {
                 <Drawer width={300} docked={true}>
                     {this.renderPlayerCards(this.props.cards)}
                     {this.renderTableCards(this.props.table.cards)}
+                    {this.renderTablePots(this.props.table.pots)}
                     <AppBar title="Players" showMenuIconButton={false} />
                     {this.renderTable(this.props.table)}
                 </Drawer>
@@ -108,6 +109,22 @@ class ChatHistory extends Component {
                 );
       	}
       }
+      
+      renderTablePots(pots) {
+    	  console.log(pots);
+    	  if (pots == null || pots.length == 0 || pots[0].pot == 0) {
+    		  return;
+    	  } else {
+    		  return(
+               		<div style={{ textAlign: 'left' }}>
+
+                    <AppBar title="Pots" showMenuIconButton={false} />
+                    {pots.map(renderPot)}
+                    </div>  				  
+    		  );
+    		  
+    	  }
+      }
  
      
 }
@@ -116,7 +133,7 @@ function renderPlayer(player, index) {
     if (player == null) {
        return <MenuItem key={index} leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
     } else {
- 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {player.bet}</MenuItem>
+ 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)}</MenuItem>
     }
   }
     
@@ -129,6 +146,25 @@ function renderCard(card) {
                    	
 }
 
+function countBets(bets) {
+  if (bets == null || bets.length == 0) {
+	  return 0;  	
+  } else {
+	  return bets.reduce((a, b) => a + b, 0);
+  }
+}
+
+function renderPot(pot) {
+	if (pot == null || pot.pot == 0) {
+		return;
+	} else {
+		
+	// TODO show players involved in each sidepot
+	   	 return <MenuItem key="key" leftIcon={<CheckCircle color={"#2BB673"} />}>{pot.pot}</MenuItem>
+
+	}
+}
+    
     function cardToText(card) { 	
         if (card.value <= 10) {
         	return card.value + ' of ' + card.suit;

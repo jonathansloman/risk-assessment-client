@@ -3,6 +3,7 @@ const AppConfig = {
     PROTOCOL: "ws:",
     // TODO: change to localhost if you wish to run it locally
     HOST: "//localhost",
+    //HOST: "//35.223.185.33",
     PORT: ":3001"
 }
 
