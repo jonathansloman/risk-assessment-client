@@ -27,7 +27,7 @@ class ChatHistory extends Component {
                 <Drawer width={300} docked={true}>
                     {this.renderPlayerCards(this.props.cards)}
                     {this.renderTableCards(this.props.table.cards)}
-                    {this.renderTablePots(this.props.table.pots)}
+                    {this.renderTablePots(this.props.table.pots, this.props.table.numPots)}
                     <AppBar title="Players" showMenuIconButton={false} />
                     {this.renderTable(this.props.table)}
                 </Drawer>
@@ -77,7 +77,7 @@ class ChatHistory extends Component {
     
     renderTable(table) {  	
     	console.log(table);
-        return table.players == null ? <MenuItem>No Players</MenuItem> : table.players.map(renderPlayer);
+        return table.players == null ? <MenuItem>No Players</MenuItem> : table.players.map( (x, i) => renderPlayer(x, table.dealer, i));
     }
     
     renderPlayerCards(cards) {
@@ -110,7 +110,7 @@ class ChatHistory extends Component {
       	}
       }
       
-      renderTablePots(pots) {
+      renderTablePots(pots, numpots) {
     	  console.log(pots);
     	  if (pots == null || pots.length == 0 || pots[0].pot == 0) {
     		  return;
@@ -129,11 +129,11 @@ class ChatHistory extends Component {
      
 }
 
-function renderPlayer(player, index) {
+function renderPlayer(player, dealer, index) {
     if (player == null) {
        return <MenuItem key={index} leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
     } else {
- 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)}</MenuItem>
+ 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)} {playerStatus(player, index == dealer)}</MenuItem>
     }
   }
     
@@ -165,20 +165,21 @@ function renderPot(pot) {
 	}
 }
     
-    function cardToText(card) { 	
-        if (card.value <= 10) {
-        	return card.value + ' of ' + card.suit;
-    	} else if (card.value == 11) {
-    		return 'J of ' + card.suit;
-    	} else if (card.value == 12) {
-    		return 'Q of ' + card.suit;
-    		
-    	} else if (card.value == 13) {
-    		return 'K of ' + card.suit;
-    	} else if (card.value == 14) {
-    		return 'A of ' + card.suit;
-    	}
-    }
+function cardToText(card) { 	
+    if (card.value <= 10) {
+    	return card.value + ' of ' + card.suit;
+	} else if (card.value == 11) {
+		return 'J of ' + card.suit;
+	} else if (card.value == 12) {
+		return 'Q of ' + card.suit;
+		
+	} else if (card.value == 13) {
+		return 'K of ' + card.suit;
+	} else if (card.value == 14) {
+		return 'A of ' + card.suit;
+	}
+}
+
 // Whatever is returned is going to show up as props inside UserList
 function mapStateToProps(state) {
     return {
@@ -187,6 +188,18 @@ function mapStateToProps(state) {
         thisUser: state.thisUser,
         cards: state.cards
     }
+}
+
+function playerStatus(player, isdealer) {
+  if (player.folded) {
+	  return "(folded)" + (isdealer ? "(dealer)" : "");	
+  } else if (player.allIn) {
+	  return "(all in)" + (isdealer ? "(dealer)" : "");
+  } else if (player.paused) {
+	  return "(paused)" + (isdealer ? "(dealer)" : "");
+  } else if (isdealer) {
+	  return "(dealer)";
+  }
 }
 
 // Promote component to container
