@@ -17,15 +17,15 @@ class ChatHistory extends Component {
             display: 'flex',
             flexDirection: 'column'
         };
-
-        const msgs = this.props.messages.map((message, i) =>
+// we reverse the order so most recent first
+        const msgs = this.props.messages.slice(0).reverse().map((message, i) =>
             this.renderMessages(message, i)
         );
         console.log('Calling render')
         return (
         		<div>
         		<div style={{ textAlign: 'left' }}>
-                <Drawer width={300} docked={true}>
+                <Drawer width={350} docked={true}>
                     {this.renderPlayerCards(this.props.cards)}
                     {this.renderTableCards(this.props.table.cards)}
                     {this.renderTablePots(this.props.table.pots, this.props.table.numPots)}
@@ -134,10 +134,10 @@ function renderPlayer(player, dealer, nextToBet, index) {
     if (player == null) {
        return <MenuItem key={index}>Empty Seat</MenuItem>
     } else if (index === nextToBet){
-  	   return  <MenuItem key={player.name} leftIcon={<CheckBox color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)} {playerStatus(player, index === dealer)}</MenuItem>
+  	   return  <MenuItem key={player.name} leftIcon={<CheckBox color={"#2BB673"} />}> {player.name} Chips: {player.chips}({player.buyIns}) Bet: {countBets(player.bets)} {playerStatus(player, index === dealer)}</MenuItem>
 
     } else {
- 	   return  <MenuItem key={player.name} leftIcon={<CheckBoxOutlineBlank color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)} {playerStatus(player, index === dealer)}</MenuItem>
+ 	   return  <MenuItem key={player.name} leftIcon={<CheckBoxOutlineBlank color={"#2BB673"} />}> {player.name} Chips: {player.chips}({player.buyIns}) Bet: {countBets(player.bets)} {playerStatus(player, index === dealer)}</MenuItem>
     }
   }
     
