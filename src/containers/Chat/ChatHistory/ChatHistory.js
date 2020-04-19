@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
-import CheckCircle from 'material-ui-icons/CheckCircle';
+import CheckBoxOutlineBlank from 'material-ui-icons/CheckBoxOutlineBlank';
+import CheckBox from 'material-ui-icons/CheckBox';
 import { connect } from 'react-redux';
 
 class ChatHistory extends Component {
@@ -77,7 +78,7 @@ class ChatHistory extends Component {
     
     renderTable(table) {  	
     	console.log(table);
-        return table.players == null ? <MenuItem>No Players</MenuItem> : table.players.map( (x, i) => renderPlayer(x, table.dealer, i));
+        return table.players == null ? <MenuItem>No Players</MenuItem> : table.players.map( (x, i) => renderPlayer(x, table.dealer, table.nextToBet, i));
     }
     
     renderPlayerCards(cards) {
@@ -112,7 +113,7 @@ class ChatHistory extends Component {
       
       renderTablePots(pots, numpots) {
     	  console.log(pots);
-    	  if (pots == null || pots.length == 0 || pots[0].pot == 0) {
+    	  if (pots == null || pots.length === 0 || pots[0].pot === 0) {
     		  return;
     	  } else {
     		  return(
@@ -129,38 +130,41 @@ class ChatHistory extends Component {
      
 }
 
-function renderPlayer(player, dealer, index) {
+function renderPlayer(player, dealer, nextToBet, index) {
     if (player == null) {
-       return <MenuItem key={index} leftIcon={<CheckCircle color={"#2BB673"} />}>Empty Seat</MenuItem>
+       return <MenuItem key={index}>Empty Seat</MenuItem>
+    } else if (index === nextToBet){
+  	   return  <MenuItem key={player.name} leftIcon={<CheckBox color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)} {playerStatus(player, index === dealer)}</MenuItem>
+
     } else {
- 	   return  <MenuItem key={player.name} leftIcon={<CheckCircle color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)} {playerStatus(player, index == dealer)}</MenuItem>
+ 	   return  <MenuItem key={player.name} leftIcon={<CheckBoxOutlineBlank color={"#2BB673"} />}> {player.name} Chips: {player.chips} Bet: {countBets(player.bets)} {playerStatus(player, index === dealer)}</MenuItem>
     }
   }
     
-function renderCard(card) {
+function renderCard(card, index) {
     if (card == null) {
    	 return ;
     } else {
-   	 return <MenuItem key="key" leftIcon={<CheckCircle color={"#2BB673"} />}>{cardToText(card)}</MenuItem>
+   	 return <MenuItem key="card-{index}">{cardToText(card)}</MenuItem>
     }
                    	
 }
 
 function countBets(bets) {
-  if (bets == null || bets.length == 0) {
+  if (bets == null || bets.length === 0) {
 	  return 0;  	
   } else {
 	  return bets.reduce((a, b) => a + b, 0);
   }
 }
 
-function renderPot(pot) {
-	if (pot == null || pot.pot == 0) {
+function renderPot(pot, index) {
+	if (pot == null || pot.pot === 0) {
 		return;
 	} else {
 		
 	// TODO show players involved in each sidepot
-	   	 return <MenuItem key="key" leftIcon={<CheckCircle color={"#2BB673"} />}>{pot.pot}</MenuItem>
+	   	 return <MenuItem key="key-{ index }" >pot{index + 1} -> {pot.pot}</MenuItem>
 
 	}
 }
@@ -168,14 +172,14 @@ function renderPot(pot) {
 function cardToText(card) { 	
     if (card.value <= 10) {
     	return card.value + ' of ' + card.suit;
-	} else if (card.value == 11) {
+	} else if (card.value === 11) {
 		return 'J of ' + card.suit;
-	} else if (card.value == 12) {
+	} else if (card.value === 12) {
 		return 'Q of ' + card.suit;
 		
-	} else if (card.value == 13) {
+	} else if (card.value === 13) {
 		return 'K of ' + card.suit;
-	} else if (card.value == 14) {
+	} else if (card.value === 14) {
 		return 'A of ' + card.suit;
 	}
 }
