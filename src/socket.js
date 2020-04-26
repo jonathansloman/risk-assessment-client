@@ -2,8 +2,8 @@
 const AppConfig = {
     PROTOCOL: "ws:",
     // TODO: change to localhost if you wish to run it locally
-    HOST: "//localhost",
-    //HOST: "//35.223.185.33",
+    //HOST: "//localhost",
+    HOST: "//dinky.default.andwynn.uk0.bigv.io",
     PORT: ":3001"
 }
 
