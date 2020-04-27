@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 //import UserList from './containers/UserList/UserList';
-import Chat from './containers/Chat/Chat';
+import PokerTable from './containers/Poker/PokerTable';
 import Singleton from './socket';
-import MessageType from './containers/Chat/SendMessage/MessageType';
+import MessageType from './containers/Poker/SendMessage/MessageType';
 
-import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import { connect } from 'react-redux';
 import { userJoined, userJoinedAck, userLeft, messageReceived } from './actions/index';
@@ -29,43 +30,44 @@ class App extends Component {
 
   render() {
     const modalActions = [
-      <RaisedButton
+      <Button
+      	variant="contained"
         label="Choose"
         primary={true}
         onClick={() => this.onChooseName()}
       />
     ];
 
-    const modalStyle = {
-      width: '600px'
-    };
-
-    const chat = this.state.modalOpen ? '' : <Chat />
+    const pokerTable = this.state.modalOpen ? '' : <PokerTable />
+    const loginModal = this.state.modalOpen ? <Dialog
+            title="Choose your name"
+                actions={modalActions}
+                open={this.state.modalOpen}
+                maxWidth='sm'
+               >
+                <DialogTitle>Choose your name</DialogTitle>
+                <DialogContent>
+                <TextField
+                  autoFocus
+                  label="Write your name here..."
+                  value={this.state.usernameInput}
+                  onChange={(event) => this.updateInputValue(event.target.value)}
+                  onKeyPress={this.handleKeyPress}
+                />
+                <TextField
+                  label="Password ..."
+                  value={this.state.passwordInput}
+                  onChange={(event) => this.updatePasswordValue(event.target.value)}
+                  onKeyPress={this.handleKeyPress}
+                />
+               </DialogContent>
+              </Dialog> : ''
 
     return (
       <MuiThemeProvider>
         <div className="App">
-          {chat}
-          <Dialog
-            title="Choose your name"
-            actions={modalActions}
-            modal={true}
-            open={this.state.modalOpen}
-            contentStyle={modalStyle}>
-            <TextField
-              autoFocus
-              hintText="Write your name here..."
-              value={this.state.usernameInput}
-              onChange={(event) => this.updateInputValue(event.target.value)}
-              onKeyPress={this.handleKeyPress}
-            />
-            <TextField
-              hintText="Password ..."
-              value={this.state.passwordInput}
-              onChange={(event) => this.updatePasswordValue(event.target.value)}
-              onKeyPress={this.handleKeyPress}
-            />
-          </Dialog>
+          {pokerTable}
+          {loginModal}
         </div>
       </MuiThemeProvider>
     );

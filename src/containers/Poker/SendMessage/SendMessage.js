@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Singleton from '../../../socket';
 import MessageType from './MessageType';
 
@@ -35,7 +35,7 @@ class SendMessage extends Component {
         return (
             <div style={styles}>
                 <TextField
-                    hintText="Write message here.."
+                    label="Write message here.."
                     fullWidth={true}
                     style={fieldStyle}
                     value={this.state.inputValue}
@@ -43,7 +43,7 @@ class SendMessage extends Component {
                     onKeyPress={this.handleKeyPress}
                     autoFocus
                 />
-                <RaisedButton style={btnStyles} onClick={this.sendMessage.bind(this)} > Send </RaisedButton>
+                <Button variant="contained" style={btnStyles} onClick={this.sendMessage.bind(this)} > Send </Button>
             </div>
         );
     }
